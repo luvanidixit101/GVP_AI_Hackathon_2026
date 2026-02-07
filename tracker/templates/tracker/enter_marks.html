@@ -1,0 +1,66 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0"><i class="bi bi-star"></i> Enter Marks</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="roll_no" class="form-label">
+                            <i class="bi bi-hash"></i> Roll Number <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" id="roll_no" name="roll_no" 
+                               list="studentsList" placeholder="Enter or select roll number" required>
+                        <datalist id="studentsList">
+                            {% for student in students %}
+                            <option value="{{ student.roll_no }}">{{ student.name }}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">
+                            <i class="bi bi-book"></i> Subject
+                        </label>
+                        <input type="text" class="form-control" id="subject" name="subject" 
+                               value="General" placeholder="Subject name">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="marks" class="form-label">
+                            <i class="bi bi-star-fill"></i> Marks (out of 100) <span class="text-danger">*</span>
+                        </label>
+                        <input type="number" class="form-control" id="marks" name="marks" 
+                               min="0" max="100" step="0.01" placeholder="0-100" required>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'student_list' %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-check-circle"></i> Save Marks
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-body">
+                <h6><i class="bi bi-robot"></i> AI-Generated Performance Remarks</h6>
+                <p class="text-muted small mb-0">
+                    The system automatically generates performance remarks based on marks:
+                    <strong>Good</strong> (≥75), <strong>Average</strong> (50-74), 
+                    <strong>Needs Improvement</strong> (<50). These remarks appear in student reports.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
